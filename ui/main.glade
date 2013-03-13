@@ -15,10 +15,10 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">5</property>
-            <property name="layout_style">start</property>
+            <property name="layout_style">center</property>
             <child>
               <object class="GtkButton" id="dev_btn">
-                <property name="label" translatable="yes">button</property>
+                <property name="label" translatable="yes">Dev</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -70,7 +70,6 @@
           <object class="GtkTreeView" id="serversTable">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="model">serverStore</property>
             <property name="reorderable">True</property>
             <property name="enable_grid_lines">horizontal</property>
             <property name="enable_tree_lines">True</property>
@@ -116,15 +115,5 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkListStore" id="serverStore">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name ip -->
-      <column type="gchararray"/>
-      <!-- column-name status -->
-      <column type="gint"/>
-    </columns>
   </object>
 </interface>

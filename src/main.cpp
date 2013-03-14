@@ -11,9 +11,9 @@
 #include <gtkmm.h>
 #include "MainWindow.h"
 
-using namespace std;
-using Gtk::TreeView;
+#define MAX_SHOW 10
 
+using namespace std;
 
 
 int main(int argc, char *argv[]) {
@@ -22,13 +22,15 @@ int main(int argc, char *argv[]) {
 	system("date");
 	std::cout << "=================================" << endl;
 
-	const int MAX_SHOW = 10;
+	int counter = 0;
+	string configLine;
 	Gtk::Main kit(argc, argv);
 	Gtk::Window* pWindow;
-	GtkListStore* pListstore;
-	GtkTreeView* pTreeView;
-	GtkTreeIter iter;
-	string serverList[MAX_SHOW];
+	Gtk::ListStore* pListstore;
+	Gtk::TreeView* pTreeView;
+	Gtk::TreeIter iter;
+	string seversList[MAX_SHOW];
+	ifstream config;
 	enum {
 		NAME,
 		IP,
@@ -40,19 +42,17 @@ int main(int argc, char *argv[]) {
 	try {
 		refBuilder->add_from_file("ui/main.glade");
 		refBuilder->get_widget("mainWindow", pWindow);
-
-		ifstream config;
+		refBuilder->get_widget("serversTable", pTreeView);
+		refBuilder->get_widget("listStore", pListstore);
 		config.open("extra/servers.txt");
 
 		if(config.is_open()) {
 			cout << "Servers:" << endl;
-			int counter = 0;
-			string configLine;
 
 			while(config.good()) {
 				getline(config, configLine);
 				cout << "* " << configLine << endl;
-				serverList[counter] = configLine;
+				seversList[counter] = configLine;
 				counter++;
 			}
 			config.close();
@@ -72,13 +72,10 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	pListstore = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_UINT );
-	gtk_list_store_append(pListstore, &iter);
-	gtk_list_store_set(pListstore, &iter, 0, "serverList[i]", -1);
-
-	Gtk::TreeView treeView = refBuilder->get_widget("serversTable", pTreeView);
-
-
+	for(int i=0; i < MAX_SHOW; i++) {
+		iter = pListstore->append();
+		pListstore->insert(iter);
+	}
 
 	g_signal_connect(G_OBJECT(pWindow), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 

@@ -2,6 +2,16 @@
 <interface>
   <requires lib="gtk+" version="2.24"/>
   <!-- interface-naming-policy project-wide -->
+  <object class="GtkListStore" id="listStore">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name Ip -->
+      <column type="gchararray"/>
+      <!-- column-name status -->
+      <column type="guint"/>
+    </columns>
+  </object>
   <object class="GtkWindow" id="mainWindow">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">ServerMonitor</property>
@@ -70,6 +80,7 @@
           <object class="GtkTreeView" id="serversTable">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="model">listStore</property>
             <property name="reorderable">True</property>
             <property name="enable_grid_lines">horizontal</property>
             <property name="enable_tree_lines">True</property>

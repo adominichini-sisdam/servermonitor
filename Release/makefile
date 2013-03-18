@@ -8,6 +8,13 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include src/lib/curlpp-0.7.3/src/utilspp/.libs/subdir.mk
+-include src/lib/curlpp-0.7.3/src/utilspp/subdir.mk
+-include src/lib/curlpp-0.7.3/src/curlpp/internal/.libs/subdir.mk
+-include src/lib/curlpp-0.7.3/src/curlpp/internal/subdir.mk
+-include src/lib/curlpp-0.7.3/src/curlpp/.libs/subdir.mk
+-include src/lib/curlpp-0.7.3/src/curlpp/subdir.mk
+-include src/lib/curlpp-0.7.3/examples/subdir.mk
 -include src/subdir.mk
 -include subdir.mk
 -include objects.mk

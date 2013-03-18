@@ -1,5 +1,5 @@
-src/main.d: ../src/main.cpp /usr/include/gtkmm-2.4/gtkmm.h \
- /usr/include/glibmm-2.4/glibmm.h \
+src/ServerModel.d: ../src/ServerModel.cpp ../src/ServerModel.h \
+ /usr/include/gtkmm-2.4/gtkmm.h /usr/include/glibmm-2.4/glibmm.h \
  /usr/lib/i386-linux-gnu/glibmm-2.4/include/glibmmconfig.h \
  /usr/include/glibmm-2.4/glibmm/thread.h /usr/include/glib-2.0/glib.h \
  /usr/include/glib-2.0/glib/galloca.h /usr/include/glib-2.0/glib/gtypes.h \
@@ -944,8 +944,9 @@ src/main.d: ../src/main.cpp /usr/include/gtkmm-2.4/gtkmm.h \
  /usr/include/gtkmm-2.4/gtkmm/treestore.h \
  /usr/include/gtkmm-2.4/gtkmm/uimanager.h \
  /usr/include/gtkmm-2.4/gtkmm/actiongroup.h \
- /usr/include/gtkmm-2.4/gtkmm/viewport.h ../src/ServerModel.h \
- ../src/RequestManager.h
+ /usr/include/gtkmm-2.4/gtkmm/viewport.h
+
+../src/ServerModel.h:
 
 /usr/include/gtkmm-2.4/gtkmm.h:
 
@@ -2964,7 +2965,3 @@ src/main.d: ../src/main.cpp /usr/include/gtkmm-2.4/gtkmm.h \
 /usr/include/gtkmm-2.4/gtkmm/actiongroup.h:
 
 /usr/include/gtkmm-2.4/gtkmm/viewport.h:
-
-../src/ServerModel.h:
-
-../src/RequestManager.h:

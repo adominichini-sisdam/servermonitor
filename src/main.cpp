@@ -1,83 +1,101 @@
 //============================================================================
-// Name        : ServerMonitor.cpp
-// Author      : Alejandro Dominichini
-// Version     : 0.1
-// Copyright   : MIT License
+// Name			: ServerMonitor.cpp
+// Author		: Alejandro Dominichini
+// Version		: 0.1
+// Copyright	: MIT License
+// Date			: Mar 2013
 //============================================================================
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <gtkmm.h>
-#include "MainWindow.h"
 
-#define MAX_SHOW 10
+// sudo apt-get install libgtkmm-2.4.dev
+#include <gtkmm.h>
+
+// sudo apt-get install libboost-all-dev
+#include <boost/algorithm/string.hpp>
+
+// Custom
+#include "ServerModel.h"
+#include "RequestManager.h"
 
 using namespace std;
 
-
 int main(int argc, char *argv[]) {
-	std::cout << "=================================" << endl;
-	std::cout << "Servers Monitor" << endl;
+	cout << "=================================" << endl;
+	cout << "Servers Monitor" << endl;
 	system("date");
-	std::cout << "=================================" << endl;
+	cout << "=================================" << endl;
 
-	int counter = 0;
-	string configLine;
 	Gtk::Main kit(argc, argv);
 	Gtk::Window* pWindow;
-	Gtk::ListStore* pListstore;
-	Gtk::TreeView* pTreeView;
-	Gtk::TreeIter iter;
-	string seversList[MAX_SHOW];
-	ifstream config;
-	enum {
-		NAME,
-		IP,
-		STATUS
-	};
+	Gtk::TreeView* pServersTable;
+	Gtk::TextView* pOutputView;
+	Gtk::TreeModel::iterator iter;
+	Gtk::TreeModel::Row row;
+	Glib::RefPtr<Gtk::TextBuffer> refTextBuffer;
+	Glib::RefPtr<Gtk::Builder> refBuilder;
+	Glib::RefPtr<Gtk::ListStore> refListStore;
 
-	Glib::RefPtr<Gtk::Builder> refBuilder = Gtk::Builder::create();
+	ServerModel* pServerModel = new ServerModel;
+	CurlManager* pCurlManager = new CurlManager;
+
+	string configLine;
+	ifstream config;
+	vector<vector<string> > seversList;
+
+	refBuilder = Gtk::Builder::create();
 
 	try {
 		refBuilder->add_from_file("ui/main.glade");
+		refBuilder->get_widget("serversTable", pServersTable);
 		refBuilder->get_widget("mainWindow", pWindow);
-		refBuilder->get_widget("serversTable", pTreeView);
-		refBuilder->get_widget("listStore", pListstore);
-		config.open("extra/servers.txt");
+		refBuilder->get_widget("outputView", pOutputView);
+
+		refTextBuffer = Gtk::TextBuffer::create();
+		pOutputView->set_buffer(refTextBuffer);
+		refTextBuffer->set_text(refTextBuffer->get_text() + "Reading config file...");
+
+		// Read the config file
+		config.open("config/servers.txt");
 
 		if(config.is_open()) {
-			cout << "Servers:" << endl;
-
 			while(config.good()) {
 				getline(config, configLine);
-				cout << "* " << configLine << endl;
-				seversList[counter] = configLine;
-				counter++;
+				vector<string> strs;
+				boost::split(strs, configLine, boost::is_any_of("="));
+				seversList.push_back(strs);
 			}
 			config.close();
+
+			// Fill the table with the config file data
+			refListStore = Gtk::ListStore::create(*pServerModel);
+			for(uint i =0; i < seversList.size(); i++) {
+				iter = refListStore->append();
+				row = *iter;
+				row[pServerModel->col_name] = seversList.at(i)[0];
+				row[pServerModel->col_ip] = seversList.at(i)[1];
+				row[pServerModel->col_time] = "";
+				row[pServerModel->col_ttl] = "";
+				row[pServerModel->col_status] = 0;
+			}
+			pServersTable->set_model(refListStore);
+			refTextBuffer->set_text(refTextBuffer->get_text() + "Done.\n");
 		}
-		else { cout << "Error reading file."; }
 	}
-	catch(const Glib::FileError& ex) {
-		std::cerr << "FileError: " << ex.what() << std::endl;
-		return 1;
-	}
-	catch(const Glib::MarkupError& ex) {
-		std::cerr << "MarkupError: " << ex.what() << std::endl;
-		return 1;
-	}
-	catch(const Gtk::BuilderError& ex) {
-		std::cerr << "BuilderError: " << ex.what() << std::endl;
-		return 1;
+	catch(const Glib::Exception& ex) {
+		refTextBuffer->set_text(refTextBuffer->get_text() + "Error reading config file.\n");
+		cout << ex.what() << endl;
 	}
 
-	for(int i=0; i < MAX_SHOW; i++) {
-		iter = pListstore->append();
-		pListstore->insert(iter);
+	pCurlManager->init();
+	for(uint i =0; i < seversList.size(); i++) {
+		pCurlManager->addUrl(seversList.at(i)[1]);
 	}
 
-	g_signal_connect(G_OBJECT(pWindow), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+//	delete *pServerModel;
+//	delete pServerModel;
 
 	Gtk::Main::run(*pWindow);
 	return 0;

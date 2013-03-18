@@ -1,12 +1,10 @@
 --------------------------------------------------------------
 
-- libjsoncpp0
-- libjsoncpp-dev
-- libgtkmm-2.4.dev
+
 
 --------------------------------------------------------------
 
-pkg-config --cflags gtkmm-3.4
+pkg-config --cflags gtkmm-2.4
 
 /usr/include/gtkmm-2.4
 /usr/lib/i386-linux-gnu/gtkmm-2.4/include
@@ -36,3 +34,10 @@ pkg-config --cflags gtkmm-3.4
 /usr/lib/i386-linux-gnu/gtk-2.0/include
 /usr/include/gdk-pixbuf-2.0
 /usr/include/gio-unix-2.0/ 
+
+--------------------------------------------------------------
+Libraries
+--------------------------------------------------------------
+sudo apt-get install libgtkmm-2.4.dev
+sudo apt-get install libboost-all-dev
+sudo apt-get install libcurl4-openssl-dev

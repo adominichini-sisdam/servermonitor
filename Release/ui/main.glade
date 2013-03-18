@@ -4,8 +4,8 @@
   <!-- interface-naming-policy project-wide -->
   <object class="GtkWindow" id="mainWindow">
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">ServerMonitor</property>
-    <property name="resizable">False</property>
+    <property name="title" translatable="yes">Servers Monitor</property>
+    <property name="default_width">400</property>
     <child>
       <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
@@ -70,9 +70,9 @@
           <object class="GtkTreeView" id="serversTable">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="reorderable">True</property>
-            <property name="enable_grid_lines">horizontal</property>
-            <property name="enable_tree_lines">True</property>
+            <property name="headers_clickable">False</property>
+            <property name="rules_hint">True</property>
+            <property name="search_column">0</property>
             <child>
               <object class="GtkTreeViewColumn" id="Name">
                 <property name="title" translatable="yes">Name</property>
@@ -96,12 +96,23 @@
               </object>
             </child>
             <child>
-              <object class="GtkTreeViewColumn" id="Status">
-                <property name="title" translatable="yes">Status</property>
+              <object class="GtkTreeViewColumn" id="Time">
+                <property name="title" translatable="yes">Time</property>
                 <child>
                   <object class="GtkCellRendererText" id="cellrenderertext3"/>
                   <attributes>
-                    <attribute name="text">2</attribute>
+                    <attribute name="text">1</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="TTL">
+                <property name="title" translatable="yes">TTL</property>
+                <child>
+                  <object class="GtkCellRendererText" id="cellrenderertext4"/>
+                  <attributes>
+                    <attribute name="text">1</attribute>
                   </attributes>
                 </child>
               </object>
@@ -111,6 +122,23 @@
             <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkTextView" id="outputView">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="border_width">3</property>
+            <property name="pixels_above_lines">3</property>
+            <property name="pixels_below_lines">3</property>
+            <property name="editable">False</property>
+            <property name="indent">4</property>
+            <property name="cursor_visible">False</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </object>

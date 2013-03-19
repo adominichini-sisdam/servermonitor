@@ -1,2 +1,2 @@
+google=http://www.google.com
 localhost=127.0.0.1
-google=8.8.8.8

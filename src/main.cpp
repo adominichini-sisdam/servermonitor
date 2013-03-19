@@ -12,7 +12,6 @@
 
 // sudo apt-get install libgtkmm-2.4.dev
 #include <gtkmm.h>
-
 // sudo apt-get install libboost-all-dev
 #include <boost/algorithm/string.hpp>
 
@@ -93,10 +92,13 @@ int main(int argc, char *argv[]) {
 	for(uint i =0; i < seversList.size(); i++) {
 		pCurlManager->addUrl(seversList.at(i)[1]);
 	}
+	// refTextBuffer->set_text(refTextBuffer->get_text() + "Reading config file...");
+
 
 //	delete *pServerModel;
 //	delete pServerModel;
 
+	pCurlManager->startLoop(refTextBuffer);
 	Gtk::Main::run(*pWindow);
 	return 0;
 }

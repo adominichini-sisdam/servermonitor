@@ -9,6 +9,7 @@
 #define REQUESTMANAGER_H_
 #include <iostream>
 #include <vector>
+#include <gtkmm.h>
 
 namespace std {
 
@@ -19,7 +20,7 @@ namespace std {
 			virtual ~CurlManager();
 			void init();
 			void addUrl(string url);
-			void start();
+			void startLoop(Glib::RefPtr<Gtk::TextBuffer> buffer);
 	};
 
 } // end namespace std

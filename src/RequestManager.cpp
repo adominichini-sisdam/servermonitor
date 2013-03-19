@@ -11,6 +11,7 @@
 #include <iostream>
 // sudo apt-get install libcurl4-openssl-dev
 // https://code.google.com/p/curlpp/
+#include <gtkmm.h>
 #include <curlpp/cURLpp.hpp>
 #include <curlpp/Easy.hpp>
 #include <curlpp/Options.hpp>
@@ -26,20 +27,37 @@ namespace std {
 	}
 
 	void CurlManager::addUrl(string url) {
-		cout << "* CurlManager::addUrl "<< url <<"..." << endl;
 		urls.push_back(url);
 	}
 
-	void CurlManager::start() {
+	void CurlManager::startLoop(Glib::RefPtr<Gtk::TextBuffer> buffer) {
 
-		try {
-			cout << curlpp::options::Url("http://www.google.com") << endl;
-		}
-		catch(curlpp::RuntimeError &e) {
-			cout << e.what() << endl;
-		}
-		catch(curlpp::LogicError &e) {
-			cout << e.what() << endl;
+		curlpp::Cleanup cleanup;
+
+
+		for(std::vector<int>::size_type i = 0; i != this->urls.size(); i++) {
+			try {
+				curlpp::Easy request;
+				ostringstream os;
+
+				cout << "* Trying to reach "<< this->urls[i] << "..." << endl;
+
+				request.setOpt(new curlpp::options::Url(this->urls[i]));
+				curlpp::options::WriteStream ws(&os);
+				request.setOpt(ws);
+				request.perform();
+
+				if(os.rdbuf()->in_avail() != 0) {
+					string append = this->urls[i] + "\t"
+							"..................[ OK ]";
+					buffer->set_text(buffer->get_text() + append);
+					cout << append << endl;
+				}
+			}
+			catch( curlpp::RuntimeError &e ) {
+				std::cout << e.what() << std::endl;
+				continue;
+	        }
 		}
 	}
 }

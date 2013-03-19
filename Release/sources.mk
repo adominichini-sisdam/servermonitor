@@ -24,11 +24,4 @@ C_UPPER_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 src \
-src/lib/curlpp-0.7.3/src/utilspp \
-src/lib/curlpp-0.7.3/src/utilspp/.libs \
-src/lib/curlpp-0.7.3/src/curlpp/internal \
-src/lib/curlpp-0.7.3/src/curlpp/internal/.libs \
-src/lib/curlpp-0.7.3/src/curlpp \
-src/lib/curlpp-0.7.3/src/curlpp/.libs \
-src/lib/curlpp-0.7.3/examples \
 

@@ -21,7 +21,7 @@ public:
 	Gtk::TreeModelColumn<Glib::ustring> col_ip;
 	Gtk::TreeModelColumn<Glib::ustring> col_time;
 	Gtk::TreeModelColumn<Glib::ustring> col_ttl;
-	Gtk::TreeModelColumn<int> col_status;
+	Gtk::TreeModelColumn<Glib::ustring> col_status;
 };
 
 } /* namespace std */

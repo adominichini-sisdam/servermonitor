@@ -13,15 +13,23 @@
 
 namespace std {
 
-	class CurlManager {
-		std::vector<string> urls;
+	class RequestManager {
+
 		public:
-			CurlManager();
-			virtual ~CurlManager();
+			RequestManager();
+			virtual ~RequestManager();
 			void init();
 			void addUrl(string url);
-			void startLoop(Glib::RefPtr<Gtk::TextBuffer> buffer);
-	};
+			void startLoopThread();
+			static int DELAY;
+			void setBuffer(Glib::RefPtr<Gtk::TextBuffer> buffer);
+			Glib::RefPtr<Gtk::TextBuffer> getBuffer();
 
-} // end namespace std
+
+		private:
+			std::vector<string> urls;
+			Glib::RefPtr<Gtk::TextBuffer> buffer;
+			void loop();
+	};
+}
 #endif

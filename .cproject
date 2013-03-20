@@ -57,7 +57,9 @@
 									<listOptionValue builtIn="false" value="/usr/include/gio-unix-2.0/"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/curlpp"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/utilspp"/>
+									<listOptionValue builtIn="false" value="/usr/include/boost"/>
 								</option>
+								<option id="gnu.cpp.compiler.option.other.other.483993611" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.561824138" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.1230923158" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release">
@@ -67,8 +69,9 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.release.1455473825" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.release"/>
 							<tool command="g++" commandLinePattern="${COMMAND} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS} ${FLAGS}" id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.2118868951" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release">
-								<option id="gnu.cpp.link.option.flags.296305675" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="`pkg-config --libs gtkmm-2.4``pkg-config --libs curlpp`" valueType="string"/>
+								<option id="gnu.cpp.link.option.flags.296305675" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="`pkg-config --libs gtkmm-2.4``pkg-config --libs curlpp` -lboost_thread-mt" valueType="string"/>
 								<option id="gnu.cpp.link.option.paths.1189252530" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths"/>
+								<option id="gnu.cpp.link.option.libs.269501662" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.397067771" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>

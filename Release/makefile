@@ -44,7 +44,7 @@ all: ServerMonitor
 ServerMonitor: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -o "ServerMonitor" $(OBJS) $(USER_OBJS) $(LIBS) `pkg-config --libs gtkmm-2.4``pkg-config --libs curlpp`
+	g++ -o "ServerMonitor" $(OBJS) $(USER_OBJS) $(LIBS) `pkg-config --libs gtkmm-2.4``pkg-config --libs curlpp` -lboost_thread-mt
 	@echo 'Finished building target: $@'
 	@echo ' '
 

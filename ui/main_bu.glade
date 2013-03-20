@@ -12,6 +12,7 @@
         <property name="can_focus">False</property>
         <child>
           <object class="GtkHButtonBox" id="hbuttonbox1">
+            <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">5</property>
             <property name="layout_style">center</property>
@@ -132,38 +133,11 @@
                 </child>
               </object>
             </child>
-            <child>
-              <object class="GtkTreeViewColumn" id="Status">
-                <property name="title" translatable="yes">Status</property>
-                <child>
-                  <object class="GtkCellRendererText" id="cellrenderertext5"/>
-                  <attributes>
-                    <attribute name="text">4</attribute>
-                  </attributes>
-                </child>
-              </object>
-            </child>
           </object>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkTextView" id="outputView">
-            <property name="can_focus">True</property>
-            <property name="border_width">3</property>
-            <property name="pixels_above_lines">3</property>
-            <property name="pixels_below_lines">3</property>
-            <property name="editable">False</property>
-            <property name="indent">4</property>
-            <property name="cursor_visible">False</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -175,7 +149,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">3</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </object>

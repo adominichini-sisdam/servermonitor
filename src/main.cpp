@@ -14,12 +14,12 @@
 #include <gtkmm.h>
 // sudo apt-get install libboost-all-dev
 #include <boost/algorithm/string.hpp>
-
 // Custom
 #include "ServerModel.h"
 #include "RequestManager.h"
 
 using namespace std;
+
 
 int main(int argc, char *argv[]) {
 	cout << "=================================" << endl;
@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 	Glib::RefPtr<Gtk::ListStore> refListStore;
 
 	ServerModel* pServerModel = new ServerModel;
-	CurlManager* pCurlManager = new CurlManager;
+	RequestManager* pRequestManager = new RequestManager;
 
 	string configLine;
 	ifstream config;
@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
 				row[pServerModel->col_ip] = seversList.at(i)[1];
 				row[pServerModel->col_time] = "";
 				row[pServerModel->col_ttl] = "";
-				row[pServerModel->col_status] = 0;
+				row[pServerModel->col_status] = "";
 			}
 			pServersTable->set_model(refListStore);
 			refTextBuffer->set_text(refTextBuffer->get_text() + "Done.\n");
@@ -88,17 +88,13 @@ int main(int argc, char *argv[]) {
 		cout << ex.what() << endl;
 	}
 
-	pCurlManager->init();
+	pRequestManager->init();
+	pRequestManager->setBuffer(refTextBuffer);
 	for(uint i =0; i < seversList.size(); i++) {
-		pCurlManager->addUrl(seversList.at(i)[1]);
+		pRequestManager->addUrl(seversList.at(i)[1]);
 	}
-	// refTextBuffer->set_text(refTextBuffer->get_text() + "Reading config file...");
+	pRequestManager->startLoopThread();
 
-
-//	delete *pServerModel;
-//	delete pServerModel;
-
-	pCurlManager->startLoop(refTextBuffer);
 	Gtk::Main::run(*pWindow);
 	return 0;
 }

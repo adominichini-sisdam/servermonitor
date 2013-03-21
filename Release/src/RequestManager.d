@@ -944,7 +944,7 @@ src/RequestManager.d: ../src/RequestManager.cpp ../src/RequestManager.h \
  /usr/include/gtkmm-2.4/gtkmm/treestore.h \
  /usr/include/gtkmm-2.4/gtkmm/uimanager.h \
  /usr/include/gtkmm-2.4/gtkmm/actiongroup.h \
- /usr/include/gtkmm-2.4/gtkmm/viewport.h
+ /usr/include/gtkmm-2.4/gtkmm/viewport.h ../src/ServerModel.h
 
 ../src/RequestManager.h:
 
@@ -2965,3 +2965,5 @@ src/RequestManager.d: ../src/RequestManager.cpp ../src/RequestManager.h \
 /usr/include/gtkmm-2.4/gtkmm/actiongroup.h:
 
 /usr/include/gtkmm-2.4/gtkmm/viewport.h:
+
+../src/ServerModel.h:

@@ -30,16 +30,14 @@ int main(int argc, char *argv[]) {
 	Gtk::Main kit(argc, argv);
 	Gtk::Window* pWindow;
 	Gtk::TreeView* pServersTable;
-	Gtk::TextView* pOutputView;
+//	Gtk::TextView* pOutputView;
 	Gtk::TreeModel::iterator iter;
 	Gtk::TreeModel::Row row;
 	Glib::RefPtr<Gtk::TextBuffer> refTextBuffer;
 	Glib::RefPtr<Gtk::Builder> refBuilder;
 	Glib::RefPtr<Gtk::ListStore> refListStore;
-
 	ServerModel* pServerModel = new ServerModel;
 	RequestManager* pRequestManager = new RequestManager;
-
 	string configLine;
 	ifstream config;
 	vector<vector<string> > seversList;
@@ -50,11 +48,11 @@ int main(int argc, char *argv[]) {
 		refBuilder->add_from_file("ui/main.glade");
 		refBuilder->get_widget("serversTable", pServersTable);
 		refBuilder->get_widget("mainWindow", pWindow);
-		refBuilder->get_widget("outputView", pOutputView);
+//		refBuilder->get_widget("outputView", pOutputView);
 
 		refTextBuffer = Gtk::TextBuffer::create();
-		pOutputView->set_buffer(refTextBuffer);
-		refTextBuffer->set_text(refTextBuffer->get_text() + "Reading config file...");
+//		pOutputView->set_buffer(refTextBuffer);
+//		refTextBuffer->set_text(refTextBuffer->get_text() + "Reading config file...");
 
 		// Read the config file
 		config.open("config/servers.txt");
@@ -73,6 +71,7 @@ int main(int argc, char *argv[]) {
 			for(uint i =0; i < seversList.size(); i++) {
 				iter = refListStore->append();
 				row = *iter;
+				row[pServerModel->col_id] = i;
 				row[pServerModel->col_name] = seversList.at(i)[0];
 				row[pServerModel->col_ip] = seversList.at(i)[1];
 				row[pServerModel->col_time] = "";
@@ -89,10 +88,11 @@ int main(int argc, char *argv[]) {
 	}
 
 	pRequestManager->init();
-	pRequestManager->setBuffer(refTextBuffer);
 	for(uint i =0; i < seversList.size(); i++) {
 		pRequestManager->addUrl(seversList.at(i)[1]);
 	}
+	pRequestManager->pServerModel = pServerModel;
+	pRequestManager->refListStore = refListStore;
 	pRequestManager->startLoopThread();
 
 	Gtk::Main::run(*pWindow);

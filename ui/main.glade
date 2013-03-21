@@ -73,6 +73,18 @@
             <property name="rules_hint">True</property>
             <property name="search_column">0</property>
             <child>
+              <object class="GtkTreeViewColumn" id="Id">
+                <property name="visible">False</property>
+                <property name="title" translatable="yes">#</property>
+                <child>
+                  <object class="GtkCellRendererText" id="cellrenderertext6"/>
+                  <attributes>
+                    <attribute name="text">0</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
               <object class="GtkTreeViewColumn" id="Name">
                 <property name="resizable">True</property>
                 <property name="title" translatable="yes">Name</property>
@@ -82,7 +94,7 @@
                 <child>
                   <object class="GtkCellRendererText" id="cellrenderertext1"/>
                   <attributes>
-                    <attribute name="text">0</attribute>
+                    <attribute name="text">1</attribute>
                   </attributes>
                 </child>
               </object>
@@ -97,13 +109,14 @@
                 <child>
                   <object class="GtkCellRendererText" id="cellrenderertext2"/>
                   <attributes>
-                    <attribute name="text">1</attribute>
+                    <attribute name="text">2</attribute>
                   </attributes>
                 </child>
               </object>
             </child>
             <child>
               <object class="GtkTreeViewColumn" id="Time">
+                <property name="visible">False</property>
                 <property name="resizable">True</property>
                 <property name="title" translatable="yes">Time</property>
                 <property name="clickable">True</property>
@@ -112,13 +125,14 @@
                 <child>
                   <object class="GtkCellRendererText" id="cellrenderertext3"/>
                   <attributes>
-                    <attribute name="text">2</attribute>
+                    <attribute name="text">3</attribute>
                   </attributes>
                 </child>
               </object>
             </child>
             <child>
               <object class="GtkTreeViewColumn" id="TTL">
+                <property name="visible">False</property>
                 <property name="resizable">True</property>
                 <property name="title" translatable="yes">TTL</property>
                 <property name="clickable">True</property>
@@ -127,7 +141,7 @@
                 <child>
                   <object class="GtkCellRendererText" id="cellrenderertext4"/>
                   <attributes>
-                    <attribute name="text">3</attribute>
+                    <attribute name="text">4</attribute>
                   </attributes>
                 </child>
               </object>
@@ -135,10 +149,13 @@
             <child>
               <object class="GtkTreeViewColumn" id="Status">
                 <property name="title" translatable="yes">Status</property>
+                <property name="clickable">True</property>
+                <property name="sort_indicator">True</property>
+                <property name="sort_column_id">5</property>
                 <child>
                   <object class="GtkCellRendererText" id="cellrenderertext5"/>
                   <attributes>
-                    <attribute name="text">4</attribute>
+                    <attribute name="text">5</attribute>
                   </attributes>
                 </child>
               </object>

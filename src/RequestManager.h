@@ -10,6 +10,7 @@
 #include <iostream>
 #include <vector>
 #include <gtkmm.h>
+#include "ServerModel.h"
 
 namespace std {
 
@@ -22,13 +23,11 @@ namespace std {
 			void addUrl(string url);
 			void startLoopThread();
 			static int DELAY;
-			void setBuffer(Glib::RefPtr<Gtk::TextBuffer> buffer);
-			Glib::RefPtr<Gtk::TextBuffer> getBuffer();
-
+			Glib::RefPtr<Gtk::ListStore> refListStore;
+			ServerModel* pServerModel;
 
 		private:
 			std::vector<string> urls;
-			Glib::RefPtr<Gtk::TextBuffer> buffer;
 			void loop();
 	};
 }

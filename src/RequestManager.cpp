@@ -16,6 +16,7 @@
 #include <curlpp/cURLpp.hpp>
 #include <curlpp/Easy.hpp>
 #include <curlpp/Options.hpp>
+#include "ServerModel.h"
 
 namespace std {
 
@@ -37,38 +38,36 @@ namespace std {
 	}
 
 	void RequestManager::loop() {
+
 		while(true) {
 			for(std::vector<int>::size_type i=0; i!=urls.size(); i++) {
-				try {
-					curlpp::Easy request;
-					ostringstream os;
 
+				curlpp::Easy request;
+				ostringstream os;
+//				string pos = (i);
+//				pos += ":" + pos;
+				Gtk::TreePath path = Gtk::TreePath(i);
+				Gtk::TreeIter iter = refListStore->get_iter(path);
+				Gtk::TreeModel::Row row = *iter;
+
+				try {
 					request.setOpt(new curlpp::options::Url(urls[i]));
 					curlpp::options::WriteStream ws(&os);
 					request.setOpt(ws);
 					request.perform();
 
 					if(os.rdbuf()->in_avail() != 0) {
-//						string s = buffer->get_text() + urls[i] + " [ OK ]\n";
-//						buffer->set_text(s);
 						cout << "[ OK ] " << urls[i] << endl;
-
+						row[pServerModel->col_status] = "alive";
 					}
 				}
 				catch( curlpp::RuntimeError &e ) {
 					cout << "*** ERROR : " << e.what() << " " << urls[i] << " ***"<< endl;
-//					buffer->set_text(buffer->get_text() + urls[i] + " [FAIL]\n");
+					row[pServerModel->col_status] = "down";
 					continue;
 				}
 			}
 			boost::this_thread::sleep(boost::posix_time::seconds(DELAY));
 		}
-	}
-
-	void RequestManager::setBuffer(Glib::RefPtr<Gtk::TextBuffer> b) {
-		buffer = b;
-	}
-	Glib::RefPtr<Gtk::TextBuffer> RequestManager::getBuffer() {
-		return buffer;
 	}
 }

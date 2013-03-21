@@ -10,6 +10,7 @@
 namespace std {
 
 	ServerModel::ServerModel() {
+		add(col_id);
 		add(col_name);
 		add(col_ip);
 		add(col_time);

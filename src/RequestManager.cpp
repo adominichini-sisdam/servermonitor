@@ -8,17 +8,14 @@
 #include <string>
 #include <sstream>
 #include <iostream>
-
 #include <gtkmm.h>
-
 #include <boost/thread.hpp>
-
+#include <boost/lexical_cast.hpp>
 #include <curlpp/cURLpp.hpp>
 #include <curlpp/Easy.hpp>
 #include <curlpp/Multi.hpp>
 #include <curlpp/Options.hpp>
 #include <curlpp/Exception.hpp>
-
 #include "RequestManager.h"
 #include "ServerModel.h"
 
@@ -47,61 +44,40 @@ namespace std {
 	void RequestManager::loop() {
 		using namespace curlpp;
 
-		Multi requests;
+		Gtk::TreeIter iter;
+		Gtk::TreeModel::Row row;
+		Glib::ustring status;
+		Glib::ustring path;
 		Cleanup cleanup;
-		int nbLeft;
-
-		for(uint i=0; i< urls.size(); i++) {
-			cout << i <<  " = " << urls[i] << endl;
-			Easy req;
-			req.setOpt(new options::Url(urls[i]));
-			req.setOpt(new options::Verbose(true));
-			requests.add(&req);
-		}
+		Easy req;
+		ostringstream os;
+		options::WriteStream ws(&os);
+		bool success;
 
 		while(true) {
-			try {
-				while(!requests.perform(&nbLeft)) {};
-				while(nbLeft) {
-					struct timeval timeout;
-					int rc;
 
-					timeout.tv_sec = 1;
-					timeout.tv_usec = 0;
+			for(uint i=0; i< urls.size(); i++) {
+				path = boost::lexical_cast<string>(i);
+				iter = refListStore->get_iter(path);
+				row = *iter;
+				req.setOpt(new options::Url(urls[i]));
+				req.setOpt(ws);
 
-					fd_set fdread;
-					fd_set fdwrite;
-					fd_set fdexcep;
-					int maxfd;
-
-					FD_ZERO(&fdread);
-					FD_ZERO(&fdwrite);
-					FD_ZERO(&fdexcep);
-
-					requests.fdset(&fdread, &fdwrite, &fdexcep, &maxfd);
-					rc = select(maxfd + 1, &fdread, &fdwrite, &fdexcep, &timeout);
-
-					switch (rc) {
-						case -1:
-							nbLeft = 0;
-							printf("select() returns error.\n");
-							break;
-						case 0:
-						default:
-							while (!requests.perform(&nbLeft)) {};
-							break;
-					}
+				try {
+					req.perform();
+					success = true;
+				}
+				catch (curlpp::RuntimeError &e) {
+					success = false;
+					std::cout << e.what() << std::endl;
 				}
 
-				std::cout << "NB lefts: " << nbLeft << std::endl;
+				if(success) { status = "alive"; }
+				else { status = "down"; }
+				row.set_value(pServerModel->col_status, status);
 			}
-			catch ( curlpp::LogicError & e ) {
-				std::cout << e.what() << std::endl;
-			}
-			catch ( curlpp::RuntimeError & e ) {
-				std::cout << e.what() << std::endl;
-			}
+
 			boost::this_thread::sleep(boost::posix_time::seconds(DELAY));
-		} // end while
+		}
 	}
 }

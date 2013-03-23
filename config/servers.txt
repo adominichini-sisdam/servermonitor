@@ -1,2 +1,7 @@
-google=http://www.google.com
-localhost=127.0.0.0:80/test
+Google=http://www.google.com
+Twitter=http://www.twitter.com
+La Nación=http://www.lanacion.com
+Facebook=http://www.facebook.com
+Yahoo=http://www.yahoo.com
+Instagram=http://www.instagram.com
+Sisdam=http://www.sisdam.com

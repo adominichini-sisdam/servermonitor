@@ -20,7 +20,9 @@
 
 namespace std {
 
-	RequestManager::RequestManager() {}
+	RequestManager::RequestManager() {
+		pServerModel = 0;
+	}
 	RequestManager::~RequestManager() {}
 
 	int RequestManager::DELAY = 1;
@@ -40,31 +42,35 @@ namespace std {
 	void RequestManager::loop() {
 
 		while(true) {
+			// Loop config servers
 			for(std::vector<int>::size_type i=0; i!=urls.size(); i++) {
-
+				curlpp::Cleanup cleanup;
+				Gtk::TreeIter iter;
+				Gtk::TreePath path;
+				Gtk::TreeModel::Row row;
 				curlpp::Easy request;
 				ostringstream os;
-//				string pos = (i);
-//				pos += ":" + pos;
-				Gtk::TreePath path = Gtk::TreePath(i);
-				Gtk::TreeIter iter = refListStore->get_iter(path);
-				Gtk::TreeModel::Row row = *iter;
+
+				path = Gtk::TreePath(i+1);
+				iter = refListStore->get_iter(path);
+				row = *iter;
 
 				try {
 					request.setOpt(new curlpp::options::Url(urls[i]));
 					curlpp::options::WriteStream ws(&os);
+					request.setOpt(new curlpp::Options::Verbose(true));
 					request.setOpt(ws);
 					request.perform();
 
 					if(os.rdbuf()->in_avail() != 0) {
 						cout << "[ OK ] " << urls[i] << endl;
-						row[pServerModel->col_status] = "alive";
+						row.set_value(pServerModel->col_status, Glib::ustring("alive"));
+					} else {
+						row.set_value(pServerModel->col_status, Glib::ustring("down"));
 					}
 				}
 				catch( curlpp::RuntimeError &e ) {
 					cout << "*** ERROR : " << e.what() << " " << urls[i] << " ***"<< endl;
-					row[pServerModel->col_status] = "down";
-					continue;
 				}
 			}
 			boost::this_thread::sleep(boost::posix_time::seconds(DELAY));

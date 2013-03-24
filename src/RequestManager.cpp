@@ -27,7 +27,7 @@ namespace std {
 	}
 	RequestManager::~RequestManager() {}
 
-	int RequestManager::DELAY = 3;
+	int RequestManager::DELAY = 5;
 
 	void RequestManager::init() {
 		cout << "[ CurlManager::init ]" << endl;
@@ -61,6 +61,7 @@ namespace std {
 				iter = refListStore->get_iter(path);
 				row = *iter;
 				req.setOpt(new options::Url(urls[i]));
+				req.setOpt(new options::Verbose(true));
 				req.setOpt(ws);
 
 				try {
